@@ -37,6 +37,12 @@ openspec/specs/   # Feature specifications
 - **Constants:** SCREAMING_SNAKE (`MAX_RETRY_COUNT`)
 - **Booleans:** is/has/should prefix
 
+## Operating Model
+
+- **OpenSpec** defines what to build (requirements, acceptance criteria, decisions)
+- **Beads** tracks how work executes (queue, dependencies, progress)
+- **Human checkpoint approvals** gate transitions between major phases
+
 ## Beads — MANDATORY (enforced by hooks)
 
 **STOP. Do not write or edit code without an active beads issue.**
@@ -71,6 +77,15 @@ openspec/specs/   # Feature specifications
 
 Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
 
+## Execution Loop (default)
+
+1. Read active OpenSpec artifact (`openspec/changes/*` preferred, else `openspec/specs/*`)
+2. Start/pick a bead and mark `in_progress`
+3. Implement one thin vertical slice with outside-in tests
+4. Run verification (`test`, `lint`, `typecheck` where available)
+5. Checkpoint summary for human approval at phase boundary
+6. Commit with `(bd-xxx)`, sync beads, continue or close
+
 ## Git
 
 Commit format: `type(scope): description (bd-xxx)`
@@ -84,8 +99,10 @@ Branch naming: `feature/*`, `fix/*` from `main`
 
 ## Always
 
+- Follow outside-in test order: acceptance/E2E -> integration -> unit
 - Run tests before marking work complete
 - Update `docs/DECISIONS.md` for architectural changes
+- Keep bead notes linked to spec paths (`Spec source: openspec/...`)
 - Run `bd sync` before ending a session
 
 ## Context Files

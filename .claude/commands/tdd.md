@@ -1,19 +1,36 @@
-# TDD
+# TDD (Outside-In)
 
-Enforce test-driven development: write tests FIRST, then implement.
+Enforce outside-in TDD: prove user-visible behavior first, then implement inward.
 
 ## Instructions
 
-Follow the Red-Green-Refactor cycle:
+Follow this cycle:
 
-1. **SCAFFOLD** — Define types/interfaces with `throw new Error('Not implemented')` stubs
-2. **RED** — Write failing tests (happy path, edge cases, errors)
-3. **RUN** — Verify tests FAIL (confirms they test something real)
-4. **GREEN** — Write minimal code to make tests pass
-5. **RUN** — Verify tests PASS
-6. **REFACTOR** — Improve code while keeping tests green
-7. **COVERAGE** — Check with `npm test -- --coverage`
+1. **DEFINE OUTCOME** — State user-visible behavior and acceptance criteria.
+2. **RED (ACCEPTANCE)** — Add a failing acceptance/E2E (or API contract) test for the behavior.
+3. **GREEN (THIN SLICE)** — Implement the thinnest end-to-end slice to pass it.
+4. **RED (INTEGRATION/UNIT)** — Add failing integration/unit tests for edge/error logic discovered.
+5. **GREEN** — Implement minimal internals to pass.
+6. **REFACTOR** — Improve design while keeping all tests green.
+7. **VERIFY** — Run full suite + coverage.
 
-Target: 80% minimum, 100% for financial/auth/security code.
+## Required Commands
 
-Tests MUST fail before implementing. Do not skip step 3.
+```bash
+npm test
+npm test -- --coverage
+```
+
+If available in the project, also run:
+
+```bash
+npm run lint
+npm run typecheck
+```
+
+## Rules
+
+- Tests MUST fail before implementing corresponding code.
+- Start from behavior first, not helper internals.
+- Keep acceptance tests small and focused on critical paths.
+- Do not skip the final full-suite run.
